@@ -1,4 +1,4 @@
-package com.test.reversojee.Servelet;
+package com.test.reversojee.Servlet;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -8,8 +8,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet(name = "LoginServelet", value = "/login")
-public class LoginServelet extends HttpServlet {
+@WebServlet(name = "AffichageServlet", value = "/affichage")
+public class AffichageServlet extends HttpServlet {
 
     @Override
     public void init() {
@@ -18,7 +18,7 @@ public class LoginServelet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("login.jsp").forward(request, response);
+        request.getRequestDispatcher("affichage.jsp").forward(request, response);
     }
 
     @Override

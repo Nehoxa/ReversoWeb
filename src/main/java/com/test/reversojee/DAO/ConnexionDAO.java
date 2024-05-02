@@ -3,14 +3,14 @@ package com.test.reversojee.DAO;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import com.test.reversojee.Exception.DaoException;
-import com.test.reversojee.Service.LogWritter;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 import java.util.logging.Level;
+
+import com.test.reversojee.Exception.DaoException;
+import com.test.reversojee.Service.LogWritter;
 
 public class ConnexionDAO {
 
@@ -18,9 +18,23 @@ public class ConnexionDAO {
 
     private ConnexionDAO() throws Exception {
         try {
-            final Properties dataProperties = new Properties();
-            File fichier = new File("dataProperties");
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            System.out.println("Driver MySQL chargé avec succès.");
+        } catch (ClassNotFoundException e) {
+            System.out.println("Erreur : Driver MySQL non trouvé dans le classpath.");
+            e.printStackTrace();
+        }
+
+        try {
+            // Récupération du chemin du fichier de configuration depuis une variable d'environnement
+            String configFilePath = System.getenv("Properties");
+            if (configFilePath == null) {
+                throw new DaoException("La variable d'environnement Properties n'est pas définie.", Level.SEVERE);
+            }
+
+            File fichier = new File(configFilePath);
             FileInputStream input = new FileInputStream(fichier);
+            Properties dataProperties = new Properties();
             dataProperties.load(input);
 
             connexion = DriverManager.getConnection(
@@ -30,7 +44,7 @@ public class ConnexionDAO {
             );
         } catch (IOException | SQLException e) {
             LogWritter.LOGGER.log(Level.SEVERE, "Problème de connexion " + e.getMessage());
-            throw new DaoException("Un problème de connexion est survenu l'application va donc s'arrêter", Level.SEVERE);
+            throw new DaoException("Un problème de connexion est survenu. L'application va s'arrêter.", Level.SEVERE);
         }
     }
 
@@ -46,8 +60,7 @@ public class ConnexionDAO {
             public void run() {
                 if (connexion != null) {
                     try {
-                        LogWritter.LOGGER.log(Level.INFO, "Database fermée");
-
+                        LogWritter.LOGGER.log(Level.INFO, "Base de données fermée.");
                         connexion.close();
                     } catch (SQLException ex) {
                         LogWritter.LOGGER.log(Level.SEVERE, ex.getMessage());

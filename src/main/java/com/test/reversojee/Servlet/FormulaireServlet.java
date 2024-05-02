@@ -1,4 +1,4 @@
-package com.test.reversojee.Servelet;
+package com.test.reversojee.Servlet;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -8,16 +8,17 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet(name = "RegisterServlet", value = "/register")
-public class RegisterServlet extends HttpServlet {
+@WebServlet(name = "FormulaireServlet", value = "/formulaire")
+public class FormulaireServlet extends HttpServlet {
 
     @Override
     public void init() {
+
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("register.jsp").forward(request, response);
+        request.getRequestDispatcher("formulaire.jsp").forward(request, response);
     }
 
     @Override

@@ -2,7 +2,7 @@ package com.test.reversojee.Job;
 
 import com.test.reversojee.Exception.FormException;
 
-import static Utility.RegexEmail.PATTERN_EMAIL;
+import static com.test.reversojee.Utility.RegexEmail.PATTERN_EMAIL;
 
 /**
  * Cette classe abstraite représente une société.
